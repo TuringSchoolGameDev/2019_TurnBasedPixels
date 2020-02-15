@@ -1,0 +1,34 @@
+
+* text
+
+*.jpg binary
+*.jpeg binary
+*.tga binary
+*.png binary
+*.gif binary
+*.bmp binary
+*.psd binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.wma binary
+*.fbx binary
+*.max binary
+*.3ds binary
+*.zip binary
+*.tif binary
+*.tiff binary
+*.ttf binary
+
+*.dll binary
+*.mdb binary
+*.dll.mdb binary
+*.winmd binary
+*.so binary
+*.pdb binary
+*.pri binary
+*.pfx binary
+*.jar binary
+*.aar binary
+*.keystore binary
+*.ppk binary
