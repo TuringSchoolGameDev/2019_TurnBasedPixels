@@ -29,23 +29,23 @@ public class InputHandler : MonoBehaviour
             }
         }
 
-        if (newSelected != null)
-        {
-            if (newSelected != selected)
-            {
-                if (selected != null)
-                {
-                    selected.GetComponent<SpriteRenderer>().color = Color.white;
-                    selected = null;
-                }
-                selected = newSelected;
-                selected.GetComponent<SpriteRenderer>().color = Color.green;
-            }
-        }
-        else if (selected != null)
-        {
-            selected.GetComponent<SpriteRenderer>().color = Color.white;
-            selected = null;
-        }
+		if (newSelected != null)
+		{
+			if (newSelected != selected)
+			{
+				if (selected != null)
+				{
+					selected.GetComponent<SpriteRenderer>().color = Color.white;
+					selected = null;
+				}
+				selected = newSelected;
+				selected.GetComponent<SpriteRenderer>().color = Color.green;
+			}
+		}
+		else if (selected != null)
+		{
+			selected.GetComponent<SpriteRenderer>().color = Color.white;
+			selected = null;
+		}
     }
 }
