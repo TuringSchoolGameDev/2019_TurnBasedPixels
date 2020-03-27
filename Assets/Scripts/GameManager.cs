@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	public static GameManager instance;
 
-	public GameObject tilePrefab;
-	public GameObject tileGridParent;
-    void Start()
+	public List<Player> allActivePlayers = new List<Player>();
+
+	public int currentPlayerID;
+
+	private void Awake()
+	{
+		instance = this;
+	}
+
+	void Start()
     {
-		Debug.Log("Dabar loadinsim sita lygi: " + PersistentData.whichLevelToLoad);
+		LevelManager.instance.StartNewLevel("Level" + PersistentData.whichLevelToLoad, allActivePlayers);
 
-		for (int i = 0; i < 10; i++)
+	}
+
+	public void Switch()
+	{
+		currentPlayerID++;
+		if (currentPlayerID >= allActivePlayers.Count)
 		{
-			for (int j = 0; j < 10; j++)
-			{ 
-				GameObject tile = Instantiate(tilePrefab, tileGridParent.transform);
-
-				Vector3 tmpPosition = tile.transform.position;
-				tmpPosition.x += i;
-				tmpPosition.y += j;
-				tile.transform.position = tmpPosition;
-			}
+			currentPlayerID = 0;
 		}
-    }
+	}
 }

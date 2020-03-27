@@ -4,48 +4,84 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    void Update()
+	public GridTile selected;
+	private GridTile newSelectedGridTile;
+
+	void Update()
     {
-        OnCastComplete();
+        HandleInput();
     }
-
-    public GameObject selected;
-    public GameObject newSelected;
-    public void OnCastComplete()
+    
+    public void HandleInput()
     {
-        newSelected = null;
+		newSelectedGridTile = GetCurrentObjectBehindCursor();
+		SelectClick(newSelectedGridTile);
+		ActionClick(newSelectedGridTile);
+	}
 
-        Vector2 coords = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D[] raycastHits = Physics2D.RaycastAll(coords, Vector2.zero, 100f);
-        if (raycastHits != null)
-        {
-            foreach (RaycastHit2D raycastHit in raycastHits)
-            {
-                if (raycastHit.collider.gameObject.layer.Equals(LayerMask.NameToLayer("GroundTile")))
-                {
-                    newSelected = raycastHit.collider.gameObject;
-                }
-                break;
-            }
-        }
-
-		if (newSelected != null)
+	private GridTile GetCurrentObjectBehindCursor()
+	{
+		GridTile result = null;
+			 
+		Vector2 coords = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		RaycastHit2D[] raycastHits = Physics2D.RaycastAll(coords, Vector2.zero, 100f);
+		if (raycastHits != null)
 		{
-			if (newSelected != selected)
+			foreach (RaycastHit2D raycastHit in raycastHits)
 			{
-				if (selected != null)
+				if (raycastHit.collider.gameObject.layer.Equals(LayerMask.NameToLayer("GroundTile")))
 				{
-					selected.GetComponent<SpriteRenderer>().color = Color.white;
-					selected = null;
+					GridTile gridTile = raycastHit.collider.gameObject.GetComponent<GridTile>();
+					if (gridTile != null)
+					{
+						result = gridTile;
+					}
 				}
-				selected = newSelected;
-				selected.GetComponent<SpriteRenderer>().color = Color.green;
+				break;
 			}
 		}
-		else if (selected != null)
+
+		return result;
+	}
+
+	private void SelectClick(GridTile newSelectedGridTile)
+	{
+		if (Input.GetMouseButtonDown(0))
 		{
-			selected.GetComponent<SpriteRenderer>().color = Color.white;
+			if (newSelectedGridTile != null)
+			{
+				if (newSelectedGridTile != selected && newSelectedGridTile.IsThisTileSelectable())
+				{
+					Deselect();
+					Select(newSelectedGridTile);
+				}
+			}
+		}
+	}
+	private void ActionClick(GridTile newSelectedGridTile)
+	{
+		if (Input.GetMouseButtonDown(1))
+		{
+			if (newSelectedGridTile != null && selected != null && newSelectedGridTile != selected && selected.CanActionBeMade(newSelectedGridTile))
+			{
+				selected.MakeAction(newSelectedGridTile);
+				Deselect();
+				GameManager.instance.Switch();
+			}
+		}
+	}
+
+	private void Select(GridTile newSelectedGridTile)
+	{
+		selected = newSelectedGridTile;
+		selected.SelectTile();
+	}
+	private void Deselect()
+	{
+		if (selected != null)
+		{
+			selected.DeselectTile();
 			selected = null;
 		}
-    }
+	}
 }
