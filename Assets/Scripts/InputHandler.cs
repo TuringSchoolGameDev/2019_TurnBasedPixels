@@ -10,9 +10,9 @@ public class InputHandler : MonoBehaviour
 	void Update()
     {
         HandleInput();
-    }
+	}
     
-    public void HandleInput()
+    private void HandleInput()
     {
 		newSelectedGridTile = GetCurrentObjectBehindCursor();
 		SelectClick(newSelectedGridTile);
