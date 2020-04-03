@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isObstacle: 1
   ownerID: 0
+  _health: 1
   objectVisuals: {fileID: 6355913436015948403}
 --- !u!1 &7634467196844610724
 GameObject:

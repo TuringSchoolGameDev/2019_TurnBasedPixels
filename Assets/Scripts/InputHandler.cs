@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-	public GridTile selected;
+	public GridTile selectedTile;
+	public List<GridTile> availableTiles;
 	private GridTile newSelectedGridTile;
 
 	void Update()
@@ -50,10 +51,12 @@ public class InputHandler : MonoBehaviour
 		{
 			if (newSelectedGridTile != null)
 			{
-				if (newSelectedGridTile != selected && newSelectedGridTile.IsThisTileSelectable())
+				if (newSelectedGridTile != selectedTile && newSelectedGridTile.IsThisTileSelectable())
 				{
 					Deselect();
+					DeselectAvailable();
 					Select(newSelectedGridTile);
+					MakeAvailable(newSelectedGridTile);
 				}
 			}
 		}
@@ -62,26 +65,46 @@ public class InputHandler : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(1))
 		{
-			if (newSelectedGridTile != null && selected != null && newSelectedGridTile != selected && selected.CanActionBeMade(newSelectedGridTile))
+			if (newSelectedGridTile != null && selectedTile != null && newSelectedGridTile != selectedTile && selectedTile.CanActionBeMade(newSelectedGridTile))
 			{
-				selected.MakeAction(newSelectedGridTile);
-				Deselect();
-				GameManager.instance.Switch();
+				if (selectedTile.MakeAction(availableTiles, newSelectedGridTile))
+				{
+					Deselect();
+					DeselectAvailable();
+					GameManager.instance.Switch();
+				}
 			}
 		}
 	}
 
 	private void Select(GridTile newSelectedGridTile)
 	{
-		selected = newSelectedGridTile;
-		selected.SelectTile();
+		selectedTile = newSelectedGridTile;
+		selectedTile.SelectTile();
+	}
+
+	private void MakeAvailable(GridTile selectedTile)
+	{
+		availableTiles = selectedTile.GetAvailableTiles();
+		for (int i = 0; i < availableTiles.Count; i++)
+		{
+			availableTiles[i].MakeTileAvailable();
+		}
 	}
 	private void Deselect()
 	{
-		if (selected != null)
+		if (selectedTile != null)
 		{
-			selected.DeselectTile();
-			selected = null;
+			selectedTile.DeselectTile();
+			selectedTile = null;
+		}
+	}
+
+	private void DeselectAvailable()
+	{
+		for (int i = 0; i < availableTiles.Count; i++)
+		{
+			availableTiles[i].DeselectTile();
 		}
 	}
 }

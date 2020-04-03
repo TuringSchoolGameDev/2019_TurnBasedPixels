@@ -22,6 +22,11 @@ public class GridTile : MonoBehaviour
 
 	public void SelectTile()
 	{
+		spriteRenderer.color = Color.blue;
+	}
+
+	public void MakeTileAvailable()
+	{
 		spriteRenderer.color = Color.green;
 	}
 
@@ -40,10 +45,24 @@ public class GridTile : MonoBehaviour
 		}
 		return false;
 	}
-	public void MakeAction(GridTile destinationGridTile)
+	public bool MakeAction(List<GridTile> availableTiles, GridTile destinationGridTile)
 	{
-		tileObject.transform.position = destinationGridTile.transform.position;
-		destinationGridTile.tileObject = tileObject;
-		tileObject = null;
+		if (availableTiles.Contains(destinationGridTile))
+		{
+			tileObject.transform.position = destinationGridTile.transform.position;
+			destinationGridTile.tileObject = tileObject;
+			tileObject = null;
+			return true;
+		}
+		return false;
+	}
+
+	public List<GridTile> GetAvailableTiles()
+	{
+		if (tileObject != null)
+		{
+			return tileObject.GetAvailableTiles(this);
+		}
+		return new List<GridTile>();
 	}
 }
