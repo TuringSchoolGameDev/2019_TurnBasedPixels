@@ -6,21 +6,21 @@ public class InputHandler : MonoBehaviour
 {
 	public GridTile selectedTile;
 	public List<GridTile> availableTiles;
-	private GridTile newSelectedGridTile;
+	protected GridTile newSelectedGridTile;
 
-	void Update()
+	protected virtual void Update()
     {
         HandleInput();
 	}
-    
-    private void HandleInput()
+
+	protected virtual void HandleInput()
     {
-		newSelectedGridTile = GetCurrentObjectBehindCursor();
+		newSelectedGridTile = GetCurrentObject();
 		SelectClick(newSelectedGridTile);
 		ActionClick(newSelectedGridTile);
 	}
 
-	private GridTile GetCurrentObjectBehindCursor()
+	protected virtual GridTile GetCurrentObject()
 	{
 		GridTile result = null;
 			 
@@ -45,7 +45,7 @@ public class InputHandler : MonoBehaviour
 		return result;
 	}
 
-	private void SelectClick(GridTile newSelectedGridTile)
+	protected virtual void SelectClick(GridTile newSelectedGridTile)
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -61,7 +61,7 @@ public class InputHandler : MonoBehaviour
 			}
 		}
 	}
-	private void ActionClick(GridTile newSelectedGridTile)
+	protected virtual void ActionClick(GridTile newSelectedGridTile)
 	{
 		if (Input.GetMouseButtonDown(1))
 		{
@@ -77,13 +77,13 @@ public class InputHandler : MonoBehaviour
 		}
 	}
 
-	private void Select(GridTile newSelectedGridTile)
+	protected virtual void Select(GridTile newSelectedGridTile)
 	{
 		selectedTile = newSelectedGridTile;
 		selectedTile.SelectTile();
 	}
 
-	private void MakeAvailable(GridTile selectedTile)
+	protected virtual void MakeAvailable(GridTile selectedTile)
 	{
 		availableTiles = selectedTile.GetAvailableTiles();
 		for (int i = 0; i < availableTiles.Count; i++)
@@ -91,7 +91,7 @@ public class InputHandler : MonoBehaviour
 			availableTiles[i].MakeTileAvailable();
 		}
 	}
-	private void Deselect()
+	protected virtual void Deselect()
 	{
 		if (selectedTile != null)
 		{
@@ -100,7 +100,7 @@ public class InputHandler : MonoBehaviour
 		}
 	}
 
-	private void DeselectAvailable()
+	protected virtual void DeselectAvailable()
 	{
 		for (int i = 0; i < availableTiles.Count; i++)
 		{

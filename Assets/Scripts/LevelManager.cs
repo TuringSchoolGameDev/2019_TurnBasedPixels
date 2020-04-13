@@ -141,6 +141,7 @@ public class LevelManager : MonoBehaviour
 
 				TileObject tileObject = tileObjectGO.GetComponent<TileObject>();
 				allFilteredTiles[0].tileObject = tileObject;
+				tileObject.currentGridTile = allFilteredTiles[0];	//ant objekto sukurimo mes priskyriam jo dabartine vieta
 
 				allTileObjects.Add(tileObject);
 			}

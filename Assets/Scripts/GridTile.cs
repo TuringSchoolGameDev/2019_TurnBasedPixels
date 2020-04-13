@@ -49,9 +49,11 @@ public class GridTile : MonoBehaviour
 	{
 		if (availableTiles.Contains(destinationGridTile))
 		{
-			tileObject.transform.position = destinationGridTile.transform.position;
-			destinationGridTile.tileObject = tileObject;
-			tileObject = null;
+			tileObject.transform.position = destinationGridTile.transform.position;	//tile objektas teleportuojasi
+			destinationGridTile.tileObject = tileObject;		//nauja vieta suzino apie objekta kuris atsiteleportavo
+			tileObject.currentGridTile = destinationGridTile;	//atsileportaves objektas suzino apie nauja vieta
+			tileObject = null;	//sena vieta turi pamirsti apie sena objekta
+			
 			return true;
 		}
 		return false;

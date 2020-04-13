@@ -194,7 +194,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1082456956}
   - component: {fileID: 1082456955}
-  - component: {fileID: 1082456957}
   - component: {fileID: 1082456958}
   m_Layer: 0
   m_Name: Managers
@@ -218,7 +217,7 @@ MonoBehaviour:
   allActivePlayers:
   - {fileID: 1950020188}
   - {fileID: 1224320402}
-  currentPlayerID: 0
+  currentPlayerID: 1
 --- !u!4 &1082456956
 Transform:
   m_ObjectHideFlags: 0
@@ -235,19 +234,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1082456957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082456954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe47f9f70d09ac4f9333b521b9387b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selected: {fileID: 0}
 --- !u!114 &1082456958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1224320403}
   - component: {fileID: 1224320402}
+  - component: {fileID: 1224320404}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -306,6 +293,8 @@ MonoBehaviour:
   allOwnedTileObjects: []
   playerColor: {r: 1, g: 0.3915094, b: 0.3915094, a: 1}
   ownerID: 1
+  inputHandler: {fileID: 0}
+  aiHandler: {fileID: 1224320404}
 --- !u!4 &1224320403
 Transform:
   m_ObjectHideFlags: 0
@@ -320,6 +309,21 @@ Transform:
   m_Father: {fileID: 1082456956}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1224320404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224320401}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b2de9ddd79918247be4c72f54a23bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedTile: {fileID: 0}
+  availableTiles: []
+  player: {fileID: 1224320402}
 --- !u!1 &1283496828
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1950020189}
   - component: {fileID: 1950020188}
+  - component: {fileID: 1950020190}
   m_Layer: 0
   m_Name: Player0
   m_TagString: Untagged
@@ -659,6 +664,8 @@ MonoBehaviour:
   allOwnedTileObjects: []
   playerColor: {r: 0, g: 0.43053007, b: 1, a: 1}
   ownerID: 0
+  inputHandler: {fileID: 1950020190}
+  aiHandler: {fileID: 0}
 --- !u!4 &1950020189
 Transform:
   m_ObjectHideFlags: 0
@@ -673,3 +680,17 @@ Transform:
   m_Father: {fileID: 1082456956}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1950020190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950020187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe47f9f70d09ac4f9333b521b9387b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedTile: {fileID: 0}
+  availableTiles: []

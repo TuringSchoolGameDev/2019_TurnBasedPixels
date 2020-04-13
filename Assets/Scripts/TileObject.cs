@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TileObject : MonoBehaviour
 {
+	public GridTile currentGridTile;
+
 	//bool - true arba false (1 arba 0)
 	public bool isObstacle;
 	public int ownerID = -1;

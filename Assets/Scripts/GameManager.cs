@@ -18,15 +18,17 @@ public class GameManager : MonoBehaviour
 	void Start()
     {
 		LevelManager.instance.StartNewLevel("Level" + PersistentData.whichLevelToLoad, allActivePlayers);
-
+		Switch();
 	}
 
 	public void Switch()
 	{
+		allActivePlayers[currentPlayerID].EndTurn();
 		currentPlayerID++;
 		if (currentPlayerID >= allActivePlayers.Count)
 		{
 			currentPlayerID = 0;
 		}
+		allActivePlayers[currentPlayerID].StartTurn();
 	}
 }
