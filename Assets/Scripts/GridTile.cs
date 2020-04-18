@@ -11,9 +11,9 @@ public class GridTile : MonoBehaviour
 
 	public TileObject tileObject;
 
-	public bool IsThisTileSelectable()
+	public bool IsThisTileSelectable(int ownerID)
 	{
-		if (tileObject != null && tileObject.ownerID == GameManager.instance.currentPlayerID)
+		if (TileGridHelpers.TileGridIsOccupiedByMyUnit(this, ownerID))
 		{
 			return true;
 		}
@@ -37,9 +37,7 @@ public class GridTile : MonoBehaviour
 
 	public bool CanActionBeMade(GridTile destinationGridTile)
 	{
-		if (tileObject != null && tileObject.ownerID == GameManager.instance.currentPlayerID &&
-			(destinationGridTile.tileObject == null || 
-			destinationGridTile.tileObject != null && !destinationGridTile.tileObject.isObstacle))
+		if (TileGridHelpers.TileGridIsOccupiedByEnemy(destinationGridTile, tileObject.ownerID) || !TileGridHelpers.TileGridIsOccupiedBySomething(destinationGridTile))
 		{
 			return true;
 		}
@@ -49,11 +47,7 @@ public class GridTile : MonoBehaviour
 	{
 		if (availableTiles.Contains(destinationGridTile))
 		{
-			tileObject.transform.position = destinationGridTile.transform.position;	//tile objektas teleportuojasi
-			destinationGridTile.tileObject = tileObject;		//nauja vieta suzino apie objekta kuris atsiteleportavo
-			tileObject.currentGridTile = destinationGridTile;	//atsileportaves objektas suzino apie nauja vieta
-			tileObject = null;	//sena vieta turi pamirsti apie sena objekta
-			
+			tileObject.MakeAction(this, destinationGridTile);
 			return true;
 		}
 		return false;

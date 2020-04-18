@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
+	public Player player;
+
 	public GridTile selectedTile;
 	public List<GridTile> availableTiles;
 	protected GridTile newSelectedGridTile;
@@ -51,7 +53,7 @@ public class InputHandler : MonoBehaviour
 		{
 			if (newSelectedGridTile != null)
 			{
-				if (newSelectedGridTile != selectedTile && newSelectedGridTile.IsThisTileSelectable())
+				if (newSelectedGridTile != selectedTile && newSelectedGridTile.IsThisTileSelectable(player.ownerID))
 				{
 					Deselect();
 					DeselectAvailable();

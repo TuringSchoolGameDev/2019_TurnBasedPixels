@@ -217,7 +217,7 @@ MonoBehaviour:
   allActivePlayers:
   - {fileID: 1950020188}
   - {fileID: 1224320402}
-  currentPlayerID: 1
+  currentPlayerID: 0
 --- !u!4 &1082456956
 Transform:
   m_ObjectHideFlags: 0
@@ -321,9 +321,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2de9ddd79918247be4c72f54a23bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1224320402}
   selectedTile: {fileID: 0}
   availableTiles: []
-  player: {fileID: 1224320402}
 --- !u!1 &1283496828
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,10 +687,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1950020187}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fe47f9f70d09ac4f9333b521b9387b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1950020188}
   selectedTile: {fileID: 0}
   availableTiles: []

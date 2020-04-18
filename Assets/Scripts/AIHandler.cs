@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AIHandler : InputHandler
 {
-	public Player player;
-
 	private void OnEnable()
 	{
 		HandleInput();
@@ -37,7 +35,7 @@ public class AIHandler : InputHandler
 	{
 		if (newSelectedGridTile != null)
 		{
-			if (newSelectedGridTile != selectedTile && newSelectedGridTile.IsThisTileSelectable())
+			if (newSelectedGridTile != selectedTile && newSelectedGridTile.IsThisTileSelectable(player.ownerID))
 			{
 				Deselect();
 				DeselectAvailable();

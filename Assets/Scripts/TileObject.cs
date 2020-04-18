@@ -57,15 +57,44 @@ public class TileObject : MonoBehaviour
 		if (resultList.Count() > 0)
 		{
 			GridTile gridTile = resultList.First();
-			if (gridTile != null && (gridTile.tileObject == null || (gridTile.tileObject != null && !gridTile.tileObject.isObstacle)))
+			if (TileGridHelpers.TileGridIsOccupiedByEnemy(gridTile, ownerID) || !TileGridHelpers.TileGridIsOccupiedBySomething(gridTile))
 			{
 				gridTileList.Add(gridTile);
 			}
 		}
 	}
 
+	public void MakeAction(GridTile oldGridTile, GridTile destinationGridTile)
+	{
+		if (!TileGridHelpers.TileGridIsOccupiedBySomething(destinationGridTile))
+		{
+			Move(oldGridTile, destinationGridTile);
+		}
+		else if (TileGridHelpers.TileGridIsOccupiedByEnemy(destinationGridTile, ownerID))
+		{
+			Attack(destinationGridTile);
+		}
+	}
+
+	private void Move(GridTile oldGridTile, GridTile destinationGridTile)
+	{
+		transform.position = destinationGridTile.transform.position; //tile objektas teleportuojasi
+		destinationGridTile.tileObject = this;        //nauja vieta suzino apie objekta kuris atsiteleportavo
+		currentGridTile = destinationGridTile;   //atsileportaves objektas suzino apie nauja vieta
+		oldGridTile.tileObject = null;  //sena vieta turi pamirsti apie sena objekta
+	}
+
+	private void Attack(GridTile destinationGridTile)
+	{
+		destinationGridTile.tileObject.TakeDamage(1);
+	}
+	public void TakeDamage(int damage)
+	{
+		health -= damage;
+	}
 	private void Death()
 	{
+		Debug.Log("Dead");
 	}
 
 	public bool doDamageNow;
