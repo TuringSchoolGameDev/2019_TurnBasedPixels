@@ -14,6 +14,8 @@ public class TileObject : MonoBehaviour
 	[SerializeField]
 	private int _health;
 
+	public GameObject deathParticlesPrefab;
+
 	public int health
 	{
 		get
@@ -78,10 +80,10 @@ public class TileObject : MonoBehaviour
 
 	private void Move(GridTile oldGridTile, GridTile destinationGridTile)
 	{
-		transform.position = destinationGridTile.transform.position; //tile objektas teleportuojasi
-		destinationGridTile.tileObject = this;        //nauja vieta suzino apie objekta kuris atsiteleportavo
-		currentGridTile = destinationGridTile;   //atsileportaves objektas suzino apie nauja vieta
-		oldGridTile.tileObject = null;  //sena vieta turi pamirsti apie sena objekta
+		transform.position = destinationGridTile.transform.position;
+		destinationGridTile.tileObject = this;
+		currentGridTile = destinationGridTile;
+		oldGridTile.tileObject = null;
 	}
 
 	private void Attack(GridTile destinationGridTile)
@@ -94,7 +96,15 @@ public class TileObject : MonoBehaviour
 	}
 	private void Death()
 	{
-		Debug.Log("Dead");
+		GameObject newGO = Instantiate(deathParticlesPrefab, gameObject.transform.position, Quaternion.identity);
+		Vector3 tmpPosition = newGO.transform.position;
+		tmpPosition.z -= 1;
+		newGO.transform.position = tmpPosition;
+
+		currentGridTile.tileObject = null;
+		Player player = GameManager.instance.allActivePlayers.Where(x => ownerID == x.ownerID).First();
+		player.allOwnedTileObjects.Remove(this);
+		Destroy(gameObject);
 	}
 
 	public bool doDamageNow;

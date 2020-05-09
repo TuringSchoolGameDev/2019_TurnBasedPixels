@@ -16,14 +16,21 @@ public class AIHandler : InputHandler
 	protected override void HandleInput()
 	{
 		newSelectedGridTile = GetCurrentObject();
-		SelectClick(newSelectedGridTile);
-		newSelectedGridTile = GetRandomNeighbour(availableTiles);
-		ActionClick(newSelectedGridTile);
+		if (newSelectedGridTile != null)
+		{
+			SelectClick(newSelectedGridTile);
+			newSelectedGridTile = GetRandomNeighbour(availableTiles);
+			ActionClick(newSelectedGridTile);
+		}
 	}
 
 	protected override GridTile GetCurrentObject()
 	{
-		return player.allOwnedTileObjects[0].currentGridTile;
+		if (player.allOwnedTileObjects.Count > 0)
+		{
+			return player.allOwnedTileObjects[0].currentGridTile;
+		}
+		return null;
 	}
 
 	private GridTile GetRandomNeighbour(List<GridTile> availableTiles)

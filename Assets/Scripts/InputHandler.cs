@@ -18,8 +18,11 @@ public class InputHandler : MonoBehaviour
 	protected virtual void HandleInput()
     {
 		newSelectedGridTile = GetCurrentObject();
-		SelectClick(newSelectedGridTile);
-		ActionClick(newSelectedGridTile);
+		if (newSelectedGridTile != null)
+		{
+			SelectClick(newSelectedGridTile);
+			ActionClick(newSelectedGridTile);
+		}
 	}
 
 	protected virtual GridTile GetCurrentObject()

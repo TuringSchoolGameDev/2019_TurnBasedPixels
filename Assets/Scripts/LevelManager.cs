@@ -157,6 +157,4 @@ public class LevelManager : MonoBehaviour
 			allTileObjects[i].ownerID = player.ownerID;
 		}
 	}
-
-	
 }
