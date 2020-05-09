@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
 
 	private LevelInfo GetLevelInfo(string levelName)
 	{
-		TextAsset textAsset = Resources.Load<TextAsset>(levelName);
+		TextAsset textAsset = Resources.Load<TextAsset>("Levels/" + levelName);
 		string[] lines = textAsset.text.Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
 		LevelInfo levelInfo = new LevelInfo();
