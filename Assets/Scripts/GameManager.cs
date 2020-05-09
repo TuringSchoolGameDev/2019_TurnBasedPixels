@@ -15,7 +15,12 @@ public class GameManager : MonoBehaviour
 	public GameObject gameEndGO;
 	public Image gameEndBackground;
 	public Text gameEndText;
+	private float startingBackgroundAlphaValue;
+	private float startingTextAlphaValue;
+
 	private bool gameEnded;
+	private GoTween tween;
+
 	private void Awake()
 	{
 		instance = this;
@@ -23,8 +28,8 @@ public class GameManager : MonoBehaviour
 
 	void Start()
     {
-		//startingBackgroundAlphaValue = gameEndBackground.color.a;//pakeista
-		//startingTextAlphaValue = gameEndText.color.a;//pakeista
+		startingBackgroundAlphaValue = gameEndBackground.color.a;
+		startingTextAlphaValue = gameEndText.color.a;
 
 		LevelManager.instance.StartNewLevel("Level" + PersistentData.whichLevelToLoad, allActivePlayers);
 		Switch();
@@ -66,6 +71,33 @@ public class GameManager : MonoBehaviour
 		gameEndGO.SetActive(true);
 		gameEndText.text = victoryText;
 
+		Color tmpColor = gameEndText.color;
+		tmpColor.a = 0;
+		gameEndText.color = tmpColor;
+
+		tmpColor = gameEndBackground.color;
+		tmpColor.a = 0;
+		gameEndBackground.color = tmpColor;
+		CustomFloat customFloat = new CustomFloat()
+		{
+			customFloat = 0
+		};
+
+		tween = Go.to(customFloat, 1, new GoTweenConfig().
+			floatProp("customFloat", 1, false).
+			setEaseType(GoEaseType.SineInOut).
+			onUpdate((AbstractGoTween abstractGoTween) =>
+			{
+				tmpColor = gameEndText.color;
+				tmpColor.a = Mathf.Lerp(0, startingTextAlphaValue, customFloat.customFloat);
+				gameEndText.color = tmpColor;
+
+				tmpColor = gameEndBackground.color;
+				tmpColor.a = Mathf.Lerp(0, startingBackgroundAlphaValue, customFloat.customFloat);
+				gameEndBackground.color = tmpColor;
+			}
+		));
+		tween.play();
 	}
 
 	private IEnumerator ReloadEverythingInXSeconds(float seconds)

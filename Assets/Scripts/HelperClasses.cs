@@ -48,3 +48,8 @@ public class TileGridHelpers
 		return false;
 	}
 }
+
+public class CustomFloat
+{
+	public float customFloat { get; set; }
+}
