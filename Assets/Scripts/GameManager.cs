@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
 	private bool gameEnded;
 	private GoTween tween;
 
+	[Header("TestParams")]
+	public bool showBannerNow;
+	
 	private void Awake()
 	{
 		instance = this;
@@ -35,9 +38,14 @@ public class GameManager : MonoBehaviour
 		Switch();
 	}
 
-	private void Update()//pakeista
+	private void Update()
 	{
 		GameEnd();
+		if (showBannerNow)
+		{
+			showBannerNow = false;
+			SetGameVisuals(9);
+		}
 	}
 
 	public void Switch()

@@ -119,8 +119,8 @@ public class LevelManager : MonoBehaviour
 				tmpPosition.y += j;
 				tile.transform.position = tmpPosition;
 
-				gridTile.row = j;
-				gridTile.column = i;
+				gridTile.coords.x = j;
+				gridTile.coords.y = i;
 			}
 		}
 		return allGridTiles;
@@ -130,7 +130,7 @@ public class LevelManager : MonoBehaviour
 		List<TileObject> allTileObjects = new List<TileObject>();
 		for (int i = 0; i < coords.Count; i++)
 		{
-			List<GridTile> allFilteredTiles = allGridTiles.Where(x => x.row == coords[i].x && x.column == coords[i].y).ToList();
+			List<GridTile> allFilteredTiles = allGridTiles.Where(x => x.coords.x == coords[i].x && x.coords.y == coords[i].y).ToList();
 			if (allFilteredTiles != null && allFilteredTiles.Count > 0)
 			{
 				GameObject tileObjectGO = Instantiate(prefabs[(int)coords[i].z], parent.transform);

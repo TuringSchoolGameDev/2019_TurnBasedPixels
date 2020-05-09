@@ -14,6 +14,16 @@ public class LevelInfo
 
 public class TileGridHelpers
 {
+	public static Dictionary<Vector2Int, int> GetGridMapForMovement(List<GridTile> gridTiles)
+	{
+		Dictionary<Vector2Int, int> result = new Dictionary<Vector2Int, int>();
+		foreach (GridTile gridTile in gridTiles)
+		{
+			result.Add(gridTile.coords, TileGridIsOccupiedByObstacle(gridTile) ? 1 : 0);
+		}
+		return result;
+	}
+
 	public static bool TileGridIsOccupiedBySomething(GridTile gridTile)
 	{
 		if (gridTile.tileObject != null)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class TileObject : MonoBehaviour
 
 	[SerializeField]
 	private int _health;
+	[SerializeField]
+	private int _damage;
 
 	public GameObject deathParticlesPrefab;
 
@@ -38,24 +41,28 @@ public class TileObject : MonoBehaviour
 	{
 		List<GridTile> result = new List<GridTile>();
 
-		int currentRow = currentOccupiedGridTile.row;
-		int currentColumn = currentOccupiedGridTile.column;
+		//int currentRow = currentOccupiedGridTile.coords.x;
+		//int currentColumn = currentOccupiedGridTile.coords.y;
 
-		AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow, result);
+		for (int i = 0; i < LevelManager.instance.allGridTiles.Count; i++)
+		{
+			AddGridTileToTheListIfItMeetsCrit(LevelManager.instance.allGridTiles[i].coords.x, LevelManager.instance.allGridTiles[i].coords.y, result);
+		}
+		/*AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow, result);
 		AddGridTileToTheListIfItMeetsCrit(currentColumn - 1, currentRow, result);
 		AddGridTileToTheListIfItMeetsCrit(currentColumn, currentRow + 1, result);
 		AddGridTileToTheListIfItMeetsCrit(currentColumn, currentRow - 1, result);
 		AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow + 1, result);
 		AddGridTileToTheListIfItMeetsCrit(currentColumn - 1, currentRow - 1, result);
 		AddGridTileToTheListIfItMeetsCrit(currentColumn - 1, currentRow + 1, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow - 1, result);
+		AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow - 1, result);*/
 
 		return result;
 	}
 
-	private void AddGridTileToTheListIfItMeetsCrit(int column, int row, List<GridTile> gridTileList)
+	private void AddGridTileToTheListIfItMeetsCrit(int row, int column, List<GridTile> gridTileList)
 	{
-		IEnumerable<GridTile> resultList = LevelManager.instance.allGridTiles.Where(x => x.row == row && x.column == column);
+		IEnumerable<GridTile> resultList = LevelManager.instance.allGridTiles.Where(x => x.coords.x == row && x.coords.y == column);
 		if (resultList.Count() > 0)
 		{
 			GridTile gridTile = resultList.First();
@@ -88,7 +95,7 @@ public class TileObject : MonoBehaviour
 
 	private void Attack(GridTile destinationGridTile)
 	{
-		destinationGridTile.tileObject.TakeDamage(1);
+		destinationGridTile.tileObject.TakeDamage(_damage);
 	}
 	public void TakeDamage(int damage)
 	{

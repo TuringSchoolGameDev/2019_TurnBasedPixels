@@ -6,8 +6,7 @@ public class GridTile : MonoBehaviour
 {
 	public SpriteRenderer spriteRenderer;
 
-	public int row;
-	public int column;
+	public Vector2Int coords;
 
 	public TileObject tileObject;
 

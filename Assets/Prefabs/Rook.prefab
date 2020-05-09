@@ -98,6 +98,7 @@ MonoBehaviour:
   isObstacle: 1
   ownerID: 0
   _health: 3
+  _damage: 5
   deathParticlesPrefab: {fileID: 9199388148984498987, guid: 73aa32c68decbd940a62ffcc13257a2c,
     type: 3}
   objectVisuals: {fileID: 6355913436015948403}
