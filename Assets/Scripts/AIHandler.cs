@@ -55,12 +55,18 @@ public class AIHandler : InputHandler
 	{
 		if (newSelectedGridTile != null && selectedTile != null && newSelectedGridTile != selectedTile && selectedTile.CanActionBeMade(newSelectedGridTile))
 		{
-			if (selectedTile.MakeAction(availableTiles, newSelectedGridTile))
+			selectedTile.MakeAction(availableTiles, newSelectedGridTile, (bool success) =>
 			{
 				Deselect();
 				DeselectAvailable();
 				GameManager.instance.Switch();
-			}
+			});
+		}
+		else
+		{
+			Deselect();
+			DeselectAvailable();
+			GameManager.instance.Switch();
 		}
 	}
 }

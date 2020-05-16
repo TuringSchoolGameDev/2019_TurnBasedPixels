@@ -10,9 +10,13 @@ public class InputHandler : MonoBehaviour
 	public List<GridTile> availableTiles;
 	protected GridTile newSelectedGridTile;
 
+	private bool inputEnalbed = true;
 	protected virtual void Update()
     {
-        HandleInput();
+		if (inputEnalbed)
+		{
+			HandleInput();
+		}
 	}
 
 	protected virtual void HandleInput()
@@ -72,12 +76,16 @@ public class InputHandler : MonoBehaviour
 		{
 			if (newSelectedGridTile != null && selectedTile != null && newSelectedGridTile != selectedTile && selectedTile.CanActionBeMade(newSelectedGridTile))
 			{
-				if (selectedTile.MakeAction(availableTiles, newSelectedGridTile))
-				{
-					Deselect();
-					DeselectAvailable();
-					GameManager.instance.Switch();
-				}
+				inputEnalbed = false;
+				selectedTile.MakeAction(availableTiles, newSelectedGridTile, (bool success) => {
+					inputEnalbed = true;
+					if (success)
+					{
+						Deselect();
+						DeselectAvailable();
+						GameManager.instance.Switch();
+					}
+				});
 			}
 		}
 	}

@@ -73,24 +73,53 @@ public class TileObject : MonoBehaviour
 		}
 	}
 
-	public void MakeAction(GridTile oldGridTile, GridTile destinationGridTile)
+	public void MakeAction(List<GridTile> availableTiles, GridTile oldGridTile, GridTile destinationGridTile, Action<bool> callback)
 	{
 		if (!TileGridHelpers.TileGridIsOccupiedBySomething(destinationGridTile))
 		{
-			Move(oldGridTile, destinationGridTile);
+			Dictionary<Vector2Int, int> map = TileGridHelpers.GetGridMapForMovement(availableTiles);
+			List<int> passableTiles = new List<int>() { 0 };
+			List<Vector2Int> path = PathFinding2D.find4(oldGridTile.coords, destinationGridTile.coords, map, passableTiles);
+
+			Move(path, oldGridTile, callback);
 		}
 		else if (TileGridHelpers.TileGridIsOccupiedByEnemy(destinationGridTile, ownerID))
 		{
 			Attack(destinationGridTile);
+			callback?.Invoke(true);
 		}
 	}
 
-	private void Move(GridTile oldGridTile, GridTile destinationGridTile)
+	private void Move(List<Vector2Int> path, GridTile startingTile, Action<bool> callback)
 	{
-		transform.position = destinationGridTile.transform.position;
-		destinationGridTile.tileObject = this;
-		currentGridTile = destinationGridTile;
-		oldGridTile.tileObject = null;
+		StartCoroutine(MoveCoroutine(path, startingTile, callback));
+	}
+
+	private IEnumerator MoveCoroutine(List<Vector2Int> path, GridTile startingTile, Action<bool> callback)
+	{
+		GridTile tmpOldGridTile = startingTile;
+		foreach (Vector2Int pathNode in path)
+		{
+			GridTile tmpGridTile = LevelManager.instance.GetGridTileByCoords(pathNode);
+			if (tmpGridTile != null)
+			{
+				transform.position = tmpGridTile.transform.position;
+				tmpGridTile.tileObject = this;
+				currentGridTile = tmpGridTile;
+
+				tmpOldGridTile.tileObject = null;
+				tmpOldGridTile = tmpGridTile;
+
+				yield return new WaitForSeconds(0.5f);
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		callback?.Invoke(true);
+		yield break;
 	}
 
 	private void Attack(GridTile destinationGridTile)

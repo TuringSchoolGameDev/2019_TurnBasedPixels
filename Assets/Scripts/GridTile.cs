@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,14 +43,16 @@ public class GridTile : MonoBehaviour
 		}
 		return false;
 	}
-	public bool MakeAction(List<GridTile> availableTiles, GridTile destinationGridTile)
+	public void MakeAction(List<GridTile> availableTiles, GridTile destinationGridTile, Action<bool> callback)
 	{
 		if (availableTiles.Contains(destinationGridTile))
 		{
-			tileObject.MakeAction(this, destinationGridTile);
-			return true;
+			tileObject.MakeAction(availableTiles, this, destinationGridTile, callback);
 		}
-		return false;
+		else
+		{
+			callback?.Invoke(false);
+		}
 	}
 
 	public List<GridTile> GetAvailableTiles()

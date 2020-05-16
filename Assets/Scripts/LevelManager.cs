@@ -157,4 +157,14 @@ public class LevelManager : MonoBehaviour
 			allTileObjects[i].ownerID = player.ownerID;
 		}
 	}
+
+	public GridTile GetGridTileByCoords(Vector2Int coords)
+	{
+		List<GridTile> allTiles = allGridTiles.Where(x => x.coords == coords).ToList();
+		if (allTiles != null && allTiles.Count > 0)
+		{
+			return allTiles[0];
+		}
+		return null;
+	}
 }
