@@ -15,7 +15,7 @@ public class AIHandler : InputHandler
 
 	protected override void HandleInput()
 	{
-		newSelectedGridTile = GetCurrentObject();
+		newSelectedGridTile = GetRandomTileObject();
 		if (newSelectedGridTile != null)
 		{
 			SelectClick(newSelectedGridTile);
@@ -23,7 +23,7 @@ public class AIHandler : InputHandler
 			ActionClick(newSelectedGridTile);
 		}
 	}
-	protected override GridTile GetCurrentObject()
+	protected override GridTile GetRandomTileObject()
 	{
 		if (player.allOwnedTileObjects.Count > 0)
 		{

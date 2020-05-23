@@ -16,6 +16,8 @@ public class TileObject : MonoBehaviour
 	private int _health;
 	[SerializeField]
 	private int _damage;
+	[SerializeField]
+	private int range;
 
 	public GameObject deathParticlesPrefab;
 
@@ -40,27 +42,56 @@ public class TileObject : MonoBehaviour
 	public List<GridTile> GetAvailableTiles(GridTile currentOccupiedGridTile)
 	{
 		List<GridTile> result = new List<GridTile>();
-
-		//int currentRow = currentOccupiedGridTile.coords.x;
-		//int currentColumn = currentOccupiedGridTile.coords.y;
-
-		for (int i = 0; i < LevelManager.instance.allGridTiles.Count; i++)
-		{
-			AddGridTileToTheListIfItMeetsCrit(LevelManager.instance.allGridTiles[i].coords.x, LevelManager.instance.allGridTiles[i].coords.y, result);
-		}
-		/*AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn - 1, currentRow, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn, currentRow + 1, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn, currentRow - 1, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow + 1, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn - 1, currentRow - 1, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn - 1, currentRow + 1, result);
-		AddGridTileToTheListIfItMeetsCrit(currentColumn + 1, currentRow - 1, result);*/
-
+		GetNeighboursWithRange(currentGridTile.coords.x, currentGridTile.coords.y, result, range);
 		return result;
 	}
-
-	private void AddGridTileToTheListIfItMeetsCrit(int row, int column, List<GridTile> gridTileList)
+	private void GetNeighboursWithRange(int row, int column, List<GridTile> gridTileList, int range)
+		{
+		if (range == 0)
+		{
+			return;
+		}
+		else
+		{
+			GridTile gridTile = GetTileIfItMeetsCrit(row, column + 1);
+			if (gridTile != null)
+			{
+				if (!gridTileList.Contains(gridTile))
+				{
+					gridTileList.Add(gridTile);
+	}
+				GetNeighboursWithRange(row, column + 1, gridTileList, range - 1);
+			}
+			gridTile = GetTileIfItMeetsCrit(row, column - 1);
+			if (gridTile != null)
+			{
+				if (!gridTileList.Contains(gridTile))
+				{
+					gridTileList.Add(gridTile);
+				}
+				GetNeighboursWithRange(row, column - 1, gridTileList, range - 1);
+			}
+			gridTile = GetTileIfItMeetsCrit(row + 1, column);
+			if (gridTile != null)
+			{
+				if (!gridTileList.Contains(gridTile))
+				{
+					gridTileList.Add(gridTile);
+				}
+				GetNeighboursWithRange(row + 1, column, gridTileList, range - 1);
+			}
+			gridTile = GetTileIfItMeetsCrit(row - 1, column);
+			if (gridTile != null)
+			{
+				if (!gridTileList.Contains(gridTile))
+				{
+					gridTileList.Add(gridTile);
+				}
+				GetNeighboursWithRange(row - 1, column, gridTileList, range - 1);
+			}
+		}
+	}
+	private GridTile GetTileIfItMeetsCrit(int row, int column)
 	{
 		IEnumerable<GridTile> resultList = LevelManager.instance.allGridTiles.Where(x => x.coords.x == row && x.coords.y == column);
 		if (resultList.Count() > 0)
@@ -68,9 +99,10 @@ public class TileObject : MonoBehaviour
 			GridTile gridTile = resultList.First();
 			if (TileGridHelpers.TileGridIsOccupiedByEnemy(gridTile, ownerID) || !TileGridHelpers.TileGridIsOccupiedBySomething(gridTile))
 			{
-				gridTileList.Add(gridTile);
+				return gridTile;
 			}
 		}
+		return null;
 	}
 
 	public void MakeAction(List<GridTile> availableTiles, GridTile oldGridTile, GridTile destinationGridTile, Action<bool> callback)

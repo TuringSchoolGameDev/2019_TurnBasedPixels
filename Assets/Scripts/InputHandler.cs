@@ -21,7 +21,7 @@ public class InputHandler : MonoBehaviour
 
 	protected virtual void HandleInput()
     {
-		newSelectedGridTile = GetCurrentObject();
+		newSelectedGridTile = GetRandomTileObject();
 		if (newSelectedGridTile != null)
 		{
 			SelectClick(newSelectedGridTile);
@@ -29,7 +29,7 @@ public class InputHandler : MonoBehaviour
 		}
 	}
 
-	protected virtual GridTile GetCurrentObject()
+	protected virtual GridTile GetRandomTileObject()
 	{
 		GridTile result = null;
 			 
