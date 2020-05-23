@@ -19,6 +19,7 @@ public class TileObject : MonoBehaviour
 	[SerializeField]
 	private int range;
 
+	public GameObject projectilePrefab;
 	public GameObject deathParticlesPrefab;
 
 	public int health
@@ -46,7 +47,7 @@ public class TileObject : MonoBehaviour
 		return result;
 	}
 	private void GetNeighboursWithRange(int row, int column, List<GridTile> gridTileList, int range)
-		{
+	{
 		if (range == 0)
 		{
 			return;
@@ -59,7 +60,7 @@ public class TileObject : MonoBehaviour
 				if (!gridTileList.Contains(gridTile))
 				{
 					gridTileList.Add(gridTile);
-	}
+				}
 				GetNeighboursWithRange(row, column + 1, gridTileList, range - 1);
 			}
 			gridTile = GetTileIfItMeetsCrit(row, column - 1);
@@ -117,8 +118,17 @@ public class TileObject : MonoBehaviour
 		}
 		else if (TileGridHelpers.TileGridIsOccupiedByEnemy(destinationGridTile, ownerID))
 		{
-			Attack(destinationGridTile);
-			callback?.Invoke(true);
+			GameObject projectileGO = Instantiate(projectilePrefab);
+			Projectile projectile = projectileGO.GetComponent<Projectile>();
+			projectile.Init(gameObject.transform.position, destinationGridTile.transform.position, () =>
+			{
+				Attack(destinationGridTile);
+				GameObject newGO = Instantiate(deathParticlesPrefab, destinationGridTile.transform.position, Quaternion.identity);
+				Vector3 tmpPosition = newGO.transform.position;
+				tmpPosition.z -= 1;
+				newGO.transform.position = tmpPosition;
+				callback?.Invoke(true);
+			});
 		}
 	}
 
