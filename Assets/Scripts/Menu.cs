@@ -10,4 +10,9 @@ public class Menu : MonoBehaviour
 		PersistentData.whichLevelToLoad = whichLevelToLoad;
 		SceneManager.LoadScene("Game");
 	}
+
+	public void Quit()
+	{
+		Application.Quit();
+	}
 }

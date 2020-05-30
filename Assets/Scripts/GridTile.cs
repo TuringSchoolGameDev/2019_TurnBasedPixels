@@ -22,6 +22,10 @@ public class GridTile : MonoBehaviour
 
 	public void SelectTile()
 	{
+		if (AudioManager.instance != null)
+		{
+			AudioManager.instance.PlayAudio(AudioManager.instance.selectAudio);
+		}
 		spriteRenderer.color = Color.blue;
 	}
 

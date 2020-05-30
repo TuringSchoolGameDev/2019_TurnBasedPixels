@@ -22,6 +22,7 @@ public class TileObject : MonoBehaviour
 	public GameObject projectilePrefab;
 	public GameObject deathParticlesPrefab;
 
+	public int startingHealth;
 	public int health
 	{
 		get
@@ -35,10 +36,19 @@ public class TileObject : MonoBehaviour
 			{
 				Death();
 			}
+			else if (_health > startingHealth)
+			{
+				_health = startingHealth;
+			}
 		}
 	}
 
 	public SpriteRenderer objectVisuals;
+
+	private void Start()
+	{
+		startingHealth = health;
+	}
 
 	public List<GridTile> GetAvailableTiles(GridTile currentOccupiedGridTile)
 	{
@@ -152,6 +162,11 @@ public class TileObject : MonoBehaviour
 				tmpOldGridTile.tileObject = null;
 				tmpOldGridTile = tmpGridTile;
 
+				if (AudioManager.instance != null)
+				{
+					AudioManager.instance.PlayAudio(AudioManager.instance.stepAudio);
+				}
+
 				yield return new WaitForSeconds(0.5f);
 			}
 			else
@@ -174,6 +189,11 @@ public class TileObject : MonoBehaviour
 	}
 	private void Death()
 	{
+		if (AudioManager.instance != null)
+		{
+			AudioManager.instance.PlayAudio(AudioManager.instance.deathAudio);
+		}
+
 		GameObject newGO = Instantiate(deathParticlesPrefab, gameObject.transform.position, Quaternion.identity);
 		Vector3 tmpPosition = newGO.transform.position;
 		tmpPosition.z -= 1;

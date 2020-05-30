@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -392,7 +393,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Quit
 --- !u!222 &749823556
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -547,6 +548,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1089802823}
   m_CullTransparentMesh: 0
+--- !u!1001 &1172516989
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.9793558
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.3921843
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.074645996
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759921, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908840808081759926, guid: c1dc08127118cd04991438607d385041,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c1dc08127118cd04991438607d385041, type: 3}
+--- !u!114 &1172516990 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3908840808081759920, guid: c1dc08127118cd04991438607d385041,
+    type: 3}
+  m_PrefabInstance: {fileID: 1172516989}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e06dd82ffb1971b4eaba9edf0ca67558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1173599256
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +663,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1100, y: 0.000030517578}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1173599258
@@ -710,6 +792,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1172516990}
+        m_MethodName: PlayAudio
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: c570722924d8dd24890462e035d8e14a,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1944598605}
         m_MethodName: OnStartClicked
         m_Mode: 3
@@ -911,7 +1005,30 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1556064683}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1172516990}
+        m_MethodName: PlayAudio
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: c570722924d8dd24890462e035d8e14a,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1944598605}
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1556064683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,6 +1483,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1172516990}
+        m_MethodName: PlayAudio
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: c570722924d8dd24890462e035d8e14a,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1944598605}
         m_MethodName: OnStartClicked
         m_Mode: 3

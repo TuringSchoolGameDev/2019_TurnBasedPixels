@@ -69,6 +69,10 @@ public class GameManager : MonoBehaviour
 				gameEnded = true;
 				SetGameVisuals(victoriousPlayer);
 				StartCoroutine(ReloadEverythingInXSeconds(5));
+				if (AudioManager.instance != null)
+				{
+					AudioManager.instance.PlayAudio(AudioManager.instance.victoryAudio);
+				}
 			}
 		}
 	}

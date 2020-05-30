@@ -17,6 +17,9 @@ public class LevelManager : MonoBehaviour
 	public List<GameObject> charactersPrefabs;
 	public GameObject characterParent;
 
+	public GameObject healthBarPrefab;
+	public Transform healthBarParent;
+
 	public List<GridTile> allGridTiles = new List<GridTile>();
 	public List<TileObject> allObsticles = new List<TileObject>();
 
@@ -155,6 +158,9 @@ public class LevelManager : MonoBehaviour
 		{
 			allTileObjects[i].objectVisuals.color = player.playerColor;
 			allTileObjects[i].ownerID = player.ownerID;
+
+			GameObject healthBar = Instantiate(healthBarPrefab, healthBarParent);
+			healthBar.GetComponent<HealthHandler>().Init(allTileObjects[i]);
 		}
 	}
 

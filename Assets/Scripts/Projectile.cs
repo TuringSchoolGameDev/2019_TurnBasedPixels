@@ -24,6 +24,11 @@ public class Projectile : MonoBehaviour
 		this.endPosition = endPosition;
 		distance  = Vector3.Distance(endPosition, gameObject.transform.position);
 		this.callback = callback;
+
+		if (AudioManager.instance != null)
+		{
+			AudioManager.instance.PlayAudio(AudioManager.instance.shootAudio);
+		}
 	}
 
 	private void Update()
@@ -33,6 +38,10 @@ public class Projectile : MonoBehaviour
 		float newDistance = Vector3.Distance(endPosition, gameObject.transform.position);
 		if (newDistance >= distance)
 		{
+			if (AudioManager.instance != null)
+			{
+				AudioManager.instance.PlayAudio(AudioManager.instance.collisionAudio);
+			}
 			callback?.Invoke();
 			Destroy(gameObject);
 		}
