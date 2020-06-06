@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
 	public AIHandler aiHandler;
 	public void StartTurn()
 	{
+		if (allOwnedTileObjects.Count == 0)
+		{
+			GameManager.instance.Switch();
+		}
 		if (inputHandler != null)
 		{
 			inputHandler.enabled = true;

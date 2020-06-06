@@ -130,7 +130,7 @@ public class TileObject : MonoBehaviour
 				() =>
 				{
 					TakeDamage(-1);
-					GameObject newGO = Instantiate(deathParticlesPrefab, destinationGridTile.transform.position, Quaternion.identity);
+					GameObject newGO = Instantiate(deathParticlesPrefab, gameObject.transform.position, Quaternion.identity);
 					Vector3 tmpPosition = newGO.transform.position;
 					tmpPosition.z -= 1;
 					newGO.transform.position = tmpPosition;
