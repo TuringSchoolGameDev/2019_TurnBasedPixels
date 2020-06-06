@@ -29,8 +29,16 @@ public class AIHandler : InputHandler
 		if (player.allOwnedTileObjects.Count > 0)
 		{
 			List<TileObject> movableTileObjects = player.allOwnedTileObjects.Where(x => x.range > 0).ToList();
-			int index = Random.Range(0, movableTileObjects.Count);
-			return movableTileObjects[index].currentGridTile;
+			if (movableTileObjects.Count > 0)
+			{
+				int index = Random.Range(0, movableTileObjects.Count);
+				return movableTileObjects[index].currentGridTile;
+			}
+			else
+			{
+				int index = Random.Range(0, player.allOwnedTileObjects.Count);
+				return player.allOwnedTileObjects[index].currentGridTile;
+			}
 		}
 		return null;
 	}
