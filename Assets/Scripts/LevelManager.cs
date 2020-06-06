@@ -90,7 +90,7 @@ public class LevelManager : MonoBehaviour
 	{
 		List<Vector3> resultList = new List<Vector3>();
 
-		string[] obstaclesInfos = lineInfo.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+		string[] obstaclesInfos = lineInfo.Split("//".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0].Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 		for (int i = 0; i < obstaclesInfos.Length; i++)
 		{
 			string[] TileObjectInfoStr = obstaclesInfos[i].Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
