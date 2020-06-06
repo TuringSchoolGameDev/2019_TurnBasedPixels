@@ -40,6 +40,14 @@ public class TileGridHelpers
 		}
 		return false;
 	}
+	public static bool TileGridIsOccupiedByPickup(GridTile gridTile)
+	{
+		if (gridTile.tileObject != null && gridTile.tileObject.isPickup)
+		{
+			return true;
+		}
+		return false;
+	}
 
 	public static bool TileGridIsOccupiedByMyUnit(GridTile gridTile, int ownerID)
 	{

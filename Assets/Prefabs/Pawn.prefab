@@ -97,14 +97,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGridTile: {fileID: 0}
   isObstacle: 1
+  isPickup: 0
   ownerID: 0
-  _health: 1
+  _health: 3
   _damage: 1
-  range: 5
+  range: 4
   projectilePrefab: {fileID: 4658350350453778331, guid: 9bb31bab4f5cd23479643fd6987a3d2e,
     type: 3}
   deathParticlesPrefab: {fileID: 9199388148984498987, guid: 73aa32c68decbd940a62ffcc13257a2c,
     type: 3}
+  startingHealth: 0
   objectVisuals: {fileID: 6355913436015948403}
   doDamageNow: 0
 --- !u!1 &7634467196844610724

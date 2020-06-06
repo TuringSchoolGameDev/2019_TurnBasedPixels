@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AIHandler : InputHandler
@@ -27,14 +28,24 @@ public class AIHandler : InputHandler
 	{
 		if (player.allOwnedTileObjects.Count > 0)
 		{
-			int index = Random.Range(0, player.allOwnedTileObjects.Count);
-			return player.allOwnedTileObjects[index].currentGridTile;
+			List<TileObject> movableTileObjects = player.allOwnedTileObjects.Where(x => x.range > 0).ToList();
+			int index = Random.Range(0, movableTileObjects.Count);
+			return movableTileObjects[index].currentGridTile;
 		}
 		return null;
 	}
 
 	private GridTile GetRandomGridTile(List<GridTile> availableTiles)
 	{
+		//always prioritizing enemies and pickups
+		foreach (GridTile tile in availableTiles)
+		{
+			if (tile.tileObject != null)
+			{
+				return tile;
+			}
+		}
+
 		if (availableTiles.Count > 0)
 		{
 			int index = Random.Range(0, availableTiles.Count);

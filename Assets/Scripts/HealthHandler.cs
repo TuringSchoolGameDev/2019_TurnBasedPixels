@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthHandler : MonoBehaviour
 {
 	public RectTransform healthBar;
 	private float startingHealthBarWidth;
 	private TileObject tileObject;
+	public Text healthText;
 
 	public Vector3 offset;
 	private void Start()
@@ -32,5 +34,7 @@ public class HealthHandler : MonoBehaviour
 		healthBar.sizeDelta = laikinasKintamasis;
 
 		gameObject.transform.position = tileObject.transform.position + offset;
+
+		healthText.text = tileObject.health.ToString();
 	}
 }

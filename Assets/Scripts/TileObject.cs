@@ -10,14 +10,15 @@ public class TileObject : MonoBehaviour
 
 	//bool - true arba false (1 arba 0)
 	public bool isObstacle;
+	public bool isPickup;
 	public int ownerID = -1;
 
 	[SerializeField]
 	private int _health;
 	[SerializeField]
 	private int _damage;
-	[SerializeField]
-	private int range;
+
+	public int range;
 
 	public GameObject projectilePrefab;
 	public GameObject deathParticlesPrefab;
@@ -108,7 +109,7 @@ public class TileObject : MonoBehaviour
 		if (resultList.Count() > 0)
 		{
 			GridTile gridTile = resultList.First();
-			if (TileGridHelpers.TileGridIsOccupiedByEnemy(gridTile, ownerID) || !TileGridHelpers.TileGridIsOccupiedBySomething(gridTile))
+			if (TileGridHelpers.TileGridIsOccupiedByEnemy(gridTile, ownerID) || !TileGridHelpers.TileGridIsOccupiedBySomething(gridTile) || TileGridHelpers.TileGridIsOccupiedByPickup(gridTile))
 			{
 				return gridTile;
 			}
@@ -118,13 +119,23 @@ public class TileObject : MonoBehaviour
 
 	public void MakeAction(List<GridTile> availableTiles, GridTile oldGridTile, GridTile destinationGridTile, Action<bool> callback)
 	{
-		if (!TileGridHelpers.TileGridIsOccupiedBySomething(destinationGridTile))
+		if (!TileGridHelpers.TileGridIsOccupiedBySomething(destinationGridTile) || TileGridHelpers.TileGridIsOccupiedByPickup(destinationGridTile))
 		{
 			Dictionary<Vector2Int, int> map = TileGridHelpers.GetGridMapForMovement(availableTiles);
 			List<int> passableTiles = new List<int>() { 0 };
 			List<Vector2Int> path = PathFinding2D.find4(oldGridTile.coords, destinationGridTile.coords, map, passableTiles);
 
-			Move(path, oldGridTile, callback);
+			Move(path, oldGridTile,
+				callback,
+				() =>
+				{
+					TakeDamage(-1);
+					GameObject newGO = Instantiate(deathParticlesPrefab, destinationGridTile.transform.position, Quaternion.identity);
+					Vector3 tmpPosition = newGO.transform.position;
+					tmpPosition.z -= 1;
+					newGO.transform.position = tmpPosition;
+				}
+			);
 		}
 		else if (TileGridHelpers.TileGridIsOccupiedByEnemy(destinationGridTile, ownerID))
 		{
@@ -142,12 +153,12 @@ public class TileObject : MonoBehaviour
 		}
 	}
 
-	private void Move(List<Vector2Int> path, GridTile startingTile, Action<bool> callback)
+	private void Move(List<Vector2Int> path, GridTile startingTile, Action<bool> callback, Action pickupCallback)
 	{
-		StartCoroutine(MoveCoroutine(path, startingTile, callback));
+		StartCoroutine(MoveCoroutine(path, startingTile, callback, pickupCallback));
 	}
 
-	private IEnumerator MoveCoroutine(List<Vector2Int> path, GridTile startingTile, Action<bool> callback)
+	private IEnumerator MoveCoroutine(List<Vector2Int> path, GridTile startingTile, Action<bool> callback, Action pickupCallback)
 	{
 		GridTile tmpOldGridTile = startingTile;
 		foreach (Vector2Int pathNode in path)
@@ -155,6 +166,12 @@ public class TileObject : MonoBehaviour
 			GridTile tmpGridTile = LevelManager.instance.GetGridTileByCoords(pathNode);
 			if (tmpGridTile != null)
 			{
+				if (TileGridHelpers.TileGridIsOccupiedByPickup(tmpGridTile))
+				{
+					tmpGridTile.tileObject.Death();
+					pickupCallback?.Invoke();
+				}
+
 				transform.position = tmpGridTile.transform.position;
 				tmpGridTile.tileObject = this;
 				currentGridTile = tmpGridTile;
@@ -200,8 +217,12 @@ public class TileObject : MonoBehaviour
 		newGO.transform.position = tmpPosition;
 
 		currentGridTile.tileObject = null;
-		Player player = GameManager.instance.allActivePlayers.Where(x => ownerID == x.ownerID).First();
-		player.allOwnedTileObjects.Remove(this);
+		List<Player> players = GameManager.instance.allActivePlayers.Where(x => ownerID == x.ownerID).ToList();
+		if (players.Count > 0)
+		{
+			players[0].allOwnedTileObjects.Remove(this);
+		}
+		
 		Destroy(gameObject);
 	}
 

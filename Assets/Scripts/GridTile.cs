@@ -41,7 +41,7 @@ public class GridTile : MonoBehaviour
 
 	public bool CanActionBeMade(GridTile destinationGridTile)
 	{
-		if (TileGridHelpers.TileGridIsOccupiedByEnemy(destinationGridTile, tileObject.ownerID) || !TileGridHelpers.TileGridIsOccupiedBySomething(destinationGridTile))
+		if (TileGridHelpers.TileGridIsOccupiedByEnemy(destinationGridTile, tileObject.ownerID) || !TileGridHelpers.TileGridIsOccupiedBySomething(destinationGridTile) || TileGridHelpers.TileGridIsOccupiedByPickup(destinationGridTile))
 		{
 			return true;
 		}

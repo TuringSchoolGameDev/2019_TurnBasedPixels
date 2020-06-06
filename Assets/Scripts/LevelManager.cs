@@ -137,15 +137,13 @@ public class LevelManager : MonoBehaviour
 			if (allFilteredTiles != null && allFilteredTiles.Count > 0)
 			{
 				GameObject tileObjectGO = Instantiate(prefabs[(int)coords[i].z], parent.transform);
-				tileObjectGO.name = tileObjectName + coords[0] + " " + coords[1];
-
+				tileObjectGO.name = tileObjectName + coords[i].x + " " + coords[i].y;
 
 				tileObjectGO.transform.position = allFilteredTiles[0].transform.position;
 
 				TileObject tileObject = tileObjectGO.GetComponent<TileObject>();
 				allFilteredTiles[0].tileObject = tileObject;
-				tileObject.currentGridTile = allFilteredTiles[0];	//ant objekto sukurimo mes priskyriam jo dabartine vieta
-
+				tileObject.currentGridTile = allFilteredTiles[0];   //ant objekto sukurimo mes priskyriam jo dabartine vieta
 				allTileObjects.Add(tileObject);
 			}
 		}
